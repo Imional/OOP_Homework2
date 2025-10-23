@@ -1,0 +1,28 @@
+# Compiler and flags
+CXX = g++
+CXXFLAGS = -std=c++23 -Wall -Wextra
+
+# Target executables
+TARGETS = answer test
+
+# Phony targets
+.PHONY: all clean
+
+# Default target
+all: $(TARGETS)
+
+# Rule to build the 'answer' executable
+answer: answer.o AnswerGenerator.o ConvertQuaternary.o
+	$(CXX) $(CXXFLAGS) -o $@ $^
+
+# Rule to build the 'test' executable
+test: test.o ConvertQuaternary.o
+	$(CXX) $(CXXFLAGS) -o $@ $^
+
+# Generic rule to compile .cpp files into .o files
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+# Rule to clean up build files
+clean:
+	rm -f *.o $(TARGETS)
